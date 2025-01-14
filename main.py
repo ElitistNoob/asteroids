@@ -1,4 +1,5 @@
 import pygame
+import sys
 from asteroidfield import AsteroidField
 from asteroids import Asteroids
 from shot import Shot
@@ -21,7 +22,7 @@ def main():
     Shot.containers = (shots, updatable, drawable)
 
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
-    asteroid_field = AsteroidField()
+    AsteroidField()
 
     dt = 0
 
@@ -41,7 +42,7 @@ def main():
 
             if obj.isColliding(player):
                 print("Game Over")
-                return
+                sys.exit()
 
         screen.fill((0,0,0))
 
