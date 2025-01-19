@@ -9,11 +9,11 @@ from player import Player
 
 def main():
     pygame.init()
-
     flags = pygame.FULLSCREEN
-    screen = pygame.display.set_mode((0,0), flags)
+    screen = pygame.display.set_mode((0,0))
     screen_size = pygame.display.get_desktop_sizes()
-
+    screen_width = screen_size[0][0]
+    screen_height = screen_size[0][1]
     text_renderer = TextRenderer()
     clock = pygame.time.Clock()
 
@@ -27,7 +27,7 @@ def main():
     AsteroidField.containers = (updatable)
     Shot.containers = (shots, updatable, drawable)
 
-    player = Player(screen_size[0][0] / 2 ,screen_size[0][1] / 2, text_renderer)
+    player = Player(screen_width / 2 ,screen_height / 2, text_renderer)
     AsteroidField()
 
     dt = 0
@@ -47,8 +47,14 @@ def main():
                     obj.split()
 
             if obj.isColliding(player):
-                print("Game Over")
-                sys.exit()
+                print(player.lifes)
+                if player.lifes >= 1: 
+                    player.position = pygame.Vector2(screen_width / 2, screen_height / 2)
+                    player.lifes -= 1
+                    pygame.time.delay(1000)
+                else:
+                    print("Game Over")
+                    pygame.quit()
 
         screen.fill((0,0,0))
 

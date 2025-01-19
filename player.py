@@ -10,7 +10,9 @@ class Player(CircleShape):
         self.is_boosting = False
         self.shot_timer = 0
         self.boost_timer = 0
+        self.boost_cooldown = 0
         self.text_renderer = text_renderer
+        self.lifes = 3
 
 
     def triangle(self):
@@ -23,9 +25,17 @@ class Player(CircleShape):
 
     def draw(self, screen):
         pygame.draw.polygon(screen, (255,255,255), self.triangle(), 2)
-
+        for life in range(self.lifes):
+            print(life)
+            self.text_renderer.render(screen, "<3", (10 + (life * 40), 50))
+        
         if self.is_boosting:
             self.text_renderer.render(screen, "Boosting", ( 10, 10 ))
+        else:
+            if self.boost_cooldown > 0:
+                self.text_renderer.render(screen, "Charging Boost", ( 10, 10 ))
+            else:
+                self.text_renderer.render(screen, "Boost Ready!", ( 10, 10 ))
 
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
@@ -42,7 +52,7 @@ class Player(CircleShape):
         shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
 
     def boost(self):
-        if self.boost_timer > 0:
+        if self.boost_cooldown > 0:
             return
 
         self.is_boosting = True
@@ -56,10 +66,13 @@ class Player(CircleShape):
             self.move(dt, BOOST_MULTIPLIER)
             if self.boost_timer <= 0:
                 self.is_boosting = False
-                self.boost_timer = BOOST_COOLDOWN
+                self.boost_timer = 0
+                self.boost_cooldown = BOOST_COOLDOWN
         else:
-            if self.boost_timer > 0:
-                self.boost_timer -= dt
+            if self.boost_cooldown > 0:
+                self.boost_cooldown -= dt
+            else: 
+                self.boost_cooldown = 0
         
         if self.shot_timer > 0:
             self.shot_timer -= dt
