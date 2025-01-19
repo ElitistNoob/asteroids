@@ -1,14 +1,17 @@
-from warnings import warn
 import pygame
 from circleshape import CircleShape
 from shot import Shot
-from constants  import PLAYER_RADIUS, PLAYER_SHOOT_COOLDOWN, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED
+from constants  import BOOST_COOLDOWN, BOOST_DURATION, BOOST_MULTIPLIER, PLAYER_RADIUS, PLAYER_SHOOT_COOLDOWN, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED
 
 class Player(CircleShape):
-    def __init__(self, x, y):
+    def __init__(self, x, y, text_renderer):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.is_boosting = False
         self.shot_timer = 0
+        self.boost_timer = 0
+        self.text_renderer = text_renderer
+
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -21,12 +24,15 @@ class Player(CircleShape):
     def draw(self, screen):
         pygame.draw.polygon(screen, (255,255,255), self.triangle(), 2)
 
+        if self.is_boosting:
+            self.text_renderer.render(screen, "Boosting", ( 10, 10 ))
+
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
 
-    def move(self, dt):
+    def move(self, dt, boost_multiplier = 1.0):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        self.position += forward * PLAYER_SPEED * dt 
+        self.position += forward * PLAYER_SPEED * dt * boost_multiplier
 
     def shoot(self):
         if self.shot_timer > 0:
@@ -35,8 +41,26 @@ class Player(CircleShape):
         shot = Shot(self.position.x, self.position.y) 
         shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
 
+    def boost(self):
+        if self.boost_timer > 0:
+            return
+
+        self.is_boosting = True
+        self.boost_timer = BOOST_DURATION
+        
     def update(self, dt):
         keys = pygame.key.get_pressed()
+
+        if self.is_boosting:
+            self.boost_timer -= dt
+            self.move(dt, BOOST_MULTIPLIER)
+            if self.boost_timer <= 0:
+                self.is_boosting = False
+                self.boost_timer = BOOST_COOLDOWN
+        else:
+            if self.boost_timer > 0:
+                self.boost_timer -= dt
+        
         if self.shot_timer > 0:
             self.shot_timer -= dt
         else:
@@ -56,3 +80,6 @@ class Player(CircleShape):
 
         if keys[pygame.K_SPACE]:
             self.shoot()
+
+        if keys[pygame.K_LSHIFT]:
+            self.boost()

@@ -2,13 +2,19 @@ import pygame
 import sys
 from asteroidfield import AsteroidField
 from asteroids import Asteroids
+from rendertext import TextRenderer
 from shot import Shot
 from constants import *
 from player import Player
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+    flags = pygame.FULLSCREEN
+    screen = pygame.display.set_mode((0,0), flags)
+    screen_size = pygame.display.get_desktop_sizes()
+
+    text_renderer = TextRenderer()
     clock = pygame.time.Clock()
 
     updatable = pygame.sprite.Group()
@@ -21,7 +27,7 @@ def main():
     AsteroidField.containers = (updatable)
     Shot.containers = (shots, updatable, drawable)
 
-    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    player = Player(screen_size[0][0] / 2 ,screen_size[0][1] / 2, text_renderer)
     AsteroidField()
 
     dt = 0
