@@ -51,7 +51,7 @@ def main():
                 if player.lifes >= 2: 
                     player.position = pygame.Vector2(screen_width / 2, screen_height / 2)
                     player.lifes -= 1
-                    pygame.time.wait(1000)
+                    pygame.time.delay(1000)
                 else:
                     print("Game Over")
                     pygame.quit()
