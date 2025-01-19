@@ -47,7 +47,6 @@ def main():
                     obj.split()
 
             if obj.isColliding(player):
-                print(player.lifes)
                 if player.lifes >= 2: 
                     player.position = pygame.Vector2(screen_width / 2, screen_height / 2)
                     player.lifes -= 1
