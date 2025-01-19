@@ -10,7 +10,7 @@ from player import Player
 def main():
     pygame.init()
     flags = pygame.FULLSCREEN
-    screen = pygame.display.set_mode((0,0))
+    screen = pygame.display.set_mode((0,0), flags)
     screen_size = pygame.display.get_desktop_sizes()
     screen_width = screen_size[0][0]
     screen_height = screen_size[0][1]
@@ -51,7 +51,7 @@ def main():
                 if player.lifes >= 2: 
                     player.position = pygame.Vector2(screen_width / 2, screen_height / 2)
                     player.lifes -= 1
-                    pygame.time.delay(1000)
+                    pygame.time.wait(1000)
                 else:
                     print("Game Over")
                     pygame.quit()
