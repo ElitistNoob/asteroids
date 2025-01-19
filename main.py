@@ -48,7 +48,7 @@ def main():
 
             if obj.isColliding(player):
                 print(player.lifes)
-                if player.lifes >= 1: 
+                if player.lifes >= 2: 
                     player.position = pygame.Vector2(screen_width / 2, screen_height / 2)
                     player.lifes -= 1
                     pygame.time.delay(1000)
