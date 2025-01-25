@@ -1,5 +1,6 @@
 import pygame
 import sys
+import os
 from asteroidfield import AsteroidField
 from asteroids import Asteroids
 from rendertext import TextRenderer
@@ -16,6 +17,9 @@ def main():
     screen_height = screen_size[0][1]
     text_renderer = TextRenderer()
     clock = pygame.time.Clock()
+    assets = os.path.join(os.path.dirname(__file__), "assets")
+    background_image = pygame.image.load(os.path.join(assets, "Backgrounds", "darkPurple.png"))
+    scaled_bg_image = pygame.transform.scale(background_image, (screen_width, screen_height))
 
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
@@ -55,7 +59,7 @@ def main():
                     print("Game Over")
                     pygame.quit()
 
-        screen.fill((0,0,0))
+        screen.blit(scaled_bg_image, (0,0))
 
         for obj in drawable:
             obj.draw(screen)
