@@ -17,7 +17,7 @@ def main():
     text_renderer = TextRenderer()
     clock = pygame.time.Clock()
     assets = os.path.join(os.path.dirname(__file__), "assets")
-    background_image = pygame.image.load(os.path.join(assets, "Backgrounds", "darkPurple.png"))
+    background_image = pygame.image.load(os.path.join(assets, "Backgrounds", "black.png"))
     bg_width = background_image.get_width()
     bg_height = background_image.get_height()
 
