@@ -14,8 +14,21 @@ class CircleShape(pygame.sprite.Sprite):
     def draw(self, screen):
         pass
 
-    def update(self, dt):
+    def update(self, dt, screen):
         pass
+
+    def positionWarp(self, screen):
+        screen_width = screen.get_width()
+        screen_height = screen.get_height()
+        if self.position[0] >= screen_width:
+            self.position[0] = 0
+        elif self.position[0] < 0:
+            self.position[0] = screen_width
+
+        if self.position[1] >= screen_height:
+            self.position[1] = 0
+        elif self.position[1] < 0:
+            self.position[1] = screen_height
 
     def isColliding(self, CircleShape):
         distance = self.position.distance_to(CircleShape.position)

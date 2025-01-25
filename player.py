@@ -57,8 +57,10 @@ class Player(CircleShape):
         self.is_boosting = True
         self.boost_timer = BOOST_DURATION
         
-    def update(self, dt):
+    def update(self, dt, screen):
         keys = pygame.key.get_pressed()
+
+        self.positionWarp(screen)
 
         if self.is_boosting:
             self.boost_timer -= dt

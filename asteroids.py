@@ -6,12 +6,22 @@ import random
 class Asteroids(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
+        self.has_been_on_screen = False
 
     def draw(self, screen):
         pygame.draw.circle(screen, "white", self.position, self.radius, 2)
 
-    def update(self, dt):
+    def update(self, dt, screen):
+        screen_width = screen.get_width()
+        screen_height = screen.get_height()
+
         self.position += self.velocity * dt
+
+        if self.position[0] >= 0 and self.position[0] < screen_width and self.position[1] >= 0 and self.position[1] < screen_height:
+            self.has_been_on_screen = True
+
+        if self.has_been_on_screen:
+            self.positionWarp(screen)
 
     def split(self):
         self.kill()

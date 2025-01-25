@@ -44,7 +44,7 @@ def main():
                 return 
 
         for obj in updatable:
-            obj.update(dt)
+            obj.update(dt, screen)
 
         for obj in asteroids:
             for shot in shots:
