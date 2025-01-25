@@ -26,7 +26,6 @@ class Player(CircleShape):
     def draw(self, screen):
         pygame.draw.polygon(screen, (255,255,255), self.triangle(), 2)
         for life in range(self.lifes):
-            print(life)
             self.text_renderer.render(screen, "<3", (10 + (life * 40), 50))
         
         if self.is_boosting:
