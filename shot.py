@@ -5,7 +5,7 @@ from constants import SHOT_RADIUS
 
 class Shot(CircleShape):
     def __init__(self, x, y, angle):
-        super().__init__(x, y, SHOT_RADIUS)
+        super().__init__(x, y)
         self.original_image = pygame.image.load(os.path.join("assets/PNG/Lasers", "laserBlue01.png"))
         self.image = self.original_image
         self.angle = angle
