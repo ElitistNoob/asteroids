@@ -19,7 +19,8 @@ def main():
     clock = pygame.time.Clock()
     assets = os.path.join(os.path.dirname(__file__), "assets")
     background_image = pygame.image.load(os.path.join(assets, "Backgrounds", "darkPurple.png"))
-    scaled_bg_image = pygame.transform.scale(background_image, (screen_width, screen_height))
+    bg_width = background_image.get_width()
+    bg_height = background_image.get_height()
 
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
@@ -35,6 +36,8 @@ def main():
     AsteroidField()
 
     dt = 0
+    bg_x = 0
+    bg_y = 0
 
     while True:
         for event in pygame.event.get():
@@ -59,7 +62,9 @@ def main():
                     print("Game Over")
                     pygame.quit()
 
-        screen.blit(scaled_bg_image, (0,0))
+        for x in range(0, screen_width // bg_width + 2):
+            for y in range(0, screen_height // bg_height + 2):
+                screen.blit(background_image, (bg_x + x * bg_width, bg_y + y * bg_height))
 
         for obj in drawable:
             obj.draw(screen)
