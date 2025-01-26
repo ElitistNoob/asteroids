@@ -17,7 +17,7 @@ class CircleShape(pygame.sprite.Sprite):
     def update(self, dt, screen):
         pass
 
-    def positionWarp(self, screen):
+    def position_warp(self, screen):
         screen_width = screen.get_width()
         screen_height = screen.get_height()
         if self.position[0] >= screen_width:
