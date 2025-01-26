@@ -60,7 +60,7 @@ class Player(CircleShape):
     def update(self, dt, screen):
         keys = pygame.key.get_pressed()
 
-        self.positionWarp(screen)
+        self.position_warp(screen)
 
         if self.is_boosting:
             self.boost_timer -= dt

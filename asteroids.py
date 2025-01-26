@@ -35,7 +35,7 @@ class Asteroids(CircleShape):
             self.has_been_on_screen = True
 
         if self.has_been_on_screen:
-            self.positionWarp(screen)
+            self.position_warp(screen)
 
     def split(self):
         self.kill()
