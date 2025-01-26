@@ -1,4 +1,5 @@
 import pygame
+import os
 from constants import ASTEROID_MIN_RADIUS
 from circleshape import CircleShape
 import random
@@ -7,9 +8,18 @@ class Asteroids(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
         self.has_been_on_screen = False
+        self.image_dir = os.path.join(os.path.dirname(__file__), "assets/PNG/Meteors")
+        self.small1_image = pygame.image.load(os.path.join(self.image_dir, "meteorBrown_small1.png"))
+        self.med1_image = pygame.image.load(os.path.join(self.image_dir, "meteorBrown_med1.png"))
+        self.big1_image = pygame.image.load(os.path.join(self.image_dir, "meteorBrown_big1.png"))
 
     def draw(self, screen):
-        pygame.draw.circle(screen, "white", self.position, self.radius, 2)
+        if self.radius == ASTEROID_MIN_RADIUS * 1:
+            screen.blit(self.small1_image, self.position)
+        elif self.radius == ASTEROID_MIN_RADIUS * 2:
+            screen.blit(self.med1_image, self.position)
+        else:
+            screen.blit(self.big1_image, self.position)
 
     def update(self, dt, screen):
         screen_width = screen.get_width()
