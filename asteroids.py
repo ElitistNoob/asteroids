@@ -1,25 +1,29 @@
-import pygame
-import os
 from constants import ASTEROID_MIN_RADIUS
 from circleshape import CircleShape
 import random
     
 class Asteroids(CircleShape):
-    def __init__(self, x, y, radius):
+    def __init__(self, x, y, radius, meteor):
         super().__init__(x, y, radius)
+        self.meteor = meteor
         self.has_been_on_screen = False
-        self.image_dir = os.path.join(os.path.dirname(__file__), "assets/PNG/Meteors")
-        self.small1_image = pygame.image.load(os.path.join(self.image_dir, "meteorBrown_small1.png"))
-        self.med1_image = pygame.image.load(os.path.join(self.image_dir, "meteorBrown_med1.png"))
-        self.big1_image = pygame.image.load(os.path.join(self.image_dir, "meteorBrown_big1.png"))
+        self.kind = None
+
+        if ASTEROID_MIN_RADIUS * 1 == self.radius:
+            self.kind = "small"
+        elif ASTEROID_MIN_RADIUS * 2 == self.radius:
+            self.kind = "med"
+        elif ASTEROID_MIN_RADIUS * 3 == self.radius:
+            self.kind = "big"
+
+        self.index = random.randint(0, len(self.meteor[self.kind]) - 1)
+
+
+    def get_random_int(self, arr):
+        return random.randint(0, len(arr) - 1)
 
     def draw(self, screen):
-        if self.radius == ASTEROID_MIN_RADIUS * 1:
-            screen.blit(self.small1_image, self.position)
-        elif self.radius == ASTEROID_MIN_RADIUS * 2:
-            screen.blit(self.med1_image, self.position)
-        else:
-            screen.blit(self.big1_image, self.position)
+        screen.blit(self.meteor[self.kind][self.index], self.position)
 
     def update(self, dt, screen):
         screen_width = screen.get_width()
@@ -45,7 +49,7 @@ class Asteroids(CircleShape):
 
         new_radius = self.radius - ASTEROID_MIN_RADIUS
 
-        asteroid_a = Asteroids(self.position.x, self.position.y, new_radius)
+        asteroid_a = Asteroids(self.position.x, self.position.y, new_radius, self.meteor)
         asteroid_a.velocity = v_a * 1.2
-        asteroid_b = Asteroids(self.position.x, self.position.y, new_radius)
+        asteroid_b = Asteroids(self.position.x, self.position.y, new_radius, self.meteor)
         asteroid_b.velocity = v_b * 1.2

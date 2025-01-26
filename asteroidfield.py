@@ -2,7 +2,7 @@ import pygame
 import random
 from constants import *
 from asteroids import Asteroids
-
+from meteormanager import MeteorManager
 
 class AsteroidField(pygame.sprite.Sprite):
     edges = [
@@ -26,14 +26,19 @@ class AsteroidField(pygame.sprite.Sprite):
                 x * SCREEN_WIDTH, SCREEN_HEIGHT + ASTEROID_MAX_RADIUS
             ),
         ],
-    ]
+    ]  
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self, self.containers)
-        self.spawn_timer = 0.0
+        self.spawn_timer = 0.0 
+        self.meteors = MeteorManager()
+        self.meteors.load_meteors()
 
-    def spawn(self, radius, position, velocity):
-        asteroid = Asteroids(position.x, position.y, radius)
+    def spawn(self, radius, position, velocity): 
+        meteors = self.meteors.get_meteors()
+        color = random.choice(["Grey", "Brown"])
+
+        asteroid = Asteroids(position.x, position.y, radius, meteors[color])
         asteroid.velocity = velocity
 
     def update(self, dt, screen):
